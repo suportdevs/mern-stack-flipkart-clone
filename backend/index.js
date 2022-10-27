@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const app = express();
 env.config();
 
+//internal imports
+const userRouter = require("./routes/user");
+
 mongoose
   .connect(process.env.DATABASE_CONNECTION_STRING, {
     useNewUrlParser: true,
@@ -22,6 +25,8 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser());
+
+app.use("/user", userRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is runing in port ${process.env.PORT}`);
