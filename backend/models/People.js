@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       tirm: true,
       lowercase: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -36,6 +37,11 @@ const userSchema = new mongoose.Schema(
     contact: {
       type: String,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   { timestamps: true }
 );
@@ -45,7 +51,7 @@ userSchema.virtual("hashPassword").set(function (hashPassword) {
 });
 
 userSchema.methods = {
-  authenticate: function (password) {
+  checkPassword: function (password) {
     return bcrypt.compareSync(password, this.password);
   },
 };
