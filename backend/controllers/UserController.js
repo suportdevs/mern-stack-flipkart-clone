@@ -33,7 +33,7 @@ async function signIn(req, res) {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      if (user.authenticate(req.body.password)) {
+      if (user.checkPassword(req.body.password)) {
         const token = jwt.sign(
           {
             _id: user._id,
